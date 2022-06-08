@@ -10,29 +10,44 @@ import java.util.List;
 
 public class CSVFilme implements FilmeStrategy {
 	
+//	private static final String CSV_FILE = System.getProperty("user.home") + "/ImersaoJava/src/movies.csv";
 	private static final String CSV_FILE = "C:\\Users\\gt_pa\\eclipse-workspace\\ImersaoJava\\src\\movies.csv";
+	private static final int POSICAO_NOME = 0;
+	private static final int POSICAO_GENERO = 1;
+	private static final int POSICAO_ESTUDIO = 2;
+	private static final int POSICAO_PERCENTUAL_AUDIENCIA = 3;
+	private static final int POSICAO_LUCRATIVIDADE = 4;
+	private static final int ANO_LANCAMENTO = 7;
 	
 	@Override
 	public List<FilmeDto> buscarFilmes() throws IOException {
 		
-		Path csvFile = Paths.get(CSV_FILE);
-		List<FilmeDto> filmes = new ArrayList<>();
+		var csvFile = Paths.get(CSV_FILE);
+		
+		var filmes = new ArrayList<FilmeDto>();
+		
 		if (Files.exists(csvFile)) {
-			List<String> lines = Files.readAllLines(csvFile, StandardCharsets.UTF_8);  
-				for (String line : lines) {
-					String[] conteudo = line.split(",");
-					FilmeDto filmeDto = new FilmeDto();
-					filmeDto.setNome(conteudo[0]);
-					filmeDto.setGenero(conteudo[1]);
-					filmeDto.setEstudio(conteudo[2]);
-					filmeDto.setPercentualAudiencia(Integer.parseInt(conteudo[3]));
-					filmeDto.setLucratividade(Double.parseDouble(conteudo[4]));
+			
+			var lines = Files.readAllLines(csvFile, StandardCharsets.UTF_8);
+			
+				lines.stream().forEach(line -> {
+					
+			
+					var conteudo = line.split(",");
+					var filmeDto = new FilmeDto();
+					filmeDto.setNome(conteudo[POSICAO_NOME]);
+					filmeDto.setGenero(conteudo[POSICAO_GENERO]);
+					filmeDto.setEstudio(conteudo[POSICAO_ESTUDIO]);
+					filmeDto.setPercentualAudiencia(Integer.parseInt(conteudo[POSICAO_PERCENTUAL_AUDIENCIA]));
+					filmeDto.setLucratividade(Double.parseDouble(conteudo[POSICAO_LUCRATIVIDADE]));
+					filmeDto.setAnoLancamento(Integer.parseInt(conteudo[ANO_LANCAMENTO]));
 					filmes.add(filmeDto);
 		
-				}
-			} 
+				
+				}); 
 				
 		return filmes;
 	}
-	
+	return new ArrayList<>();
+}
 }
